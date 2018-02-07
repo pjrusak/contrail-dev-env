@@ -6,7 +6,7 @@
     update: "{{ update_repos | default('no') }}"
     force: "{{ override_repos | default('no') }}"
   with_items:
-    - { user: 'codilime', reponame: 'contrail-project-config' }
-    - { user: 'codilime', reponame: 'zuul-jobs' }
+    - { user: 'Juniper', reponame: 'contrail-project-config' }
+    - { user: 'Juniper', reponame: 'zuul-jobs' }
     - { user: 'Juniper', reponame: 'contrail-ansible-deployer' }
 
