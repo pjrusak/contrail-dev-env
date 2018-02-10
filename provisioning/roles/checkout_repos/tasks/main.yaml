@@ -9,7 +9,7 @@
 - name: Checkout CI jobs repos
   git:
     repo: "https://github.com/{{ item.repouser }}/{{ item.reponame }}"
-    dest: "{{ workdir }}/contrail-dev-env/code/{{ item.reponame }}"
+    dest: "{{ workdir }}/code/{{ item.reponame }}"
     version: "{{ branch | default('master') }}"
     update: "{{ update_repos | default('no') }}"
     force: "{{ override_repos | default('no') }}"
