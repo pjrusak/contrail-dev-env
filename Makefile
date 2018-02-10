@@ -10,8 +10,8 @@ presetup:
 
 # optional step, used when the sandbox is not mounted from host system
 checkout_repos:
-	scripts/checkout_vnc.sh $(sandbox_path)
 	$(ansible_playbook) provisioning/checkout_repos.yaml
+	scripts/checkout_vnc.sh $(sandbox_path)
 
 # install all the primary build deps, docker engine etc.
 setup:

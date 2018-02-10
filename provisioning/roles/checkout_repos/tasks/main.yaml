@@ -1,3 +1,11 @@
+- name: Download Android repo tool
+  get_url:
+    url: "https://storage.googleapis.com/git-repo-downloads/repo"
+    dest: "/usr/bin/repo"
+    mode: 0655
+  become: yes
+  become_user: root
+
 - name: Checkout CI jobs repos
   git:
     repo: "https://github.com/{{ item.repouser }}/{{ item.reponame }}"
