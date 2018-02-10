@@ -3,9 +3,6 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - epel-release
-    - ansible
-    - git
     - createrepo
     - tree
     - lynx
