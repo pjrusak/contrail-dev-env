@@ -1,0 +1,7 @@
+cloned_repos:
+ - repouser: 'Juniper'
+   reponame: 'contrail-project-config'
+ - repouser: 'Juniper'
+   reponame: 'zuul-jobs'
+ - repouser: 'Juniper'
+   reponame: 'contrail-ansible-deployer'

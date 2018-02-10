@@ -6,17 +6,18 @@ ansible_playbook=ansible-playbook -i inventory --extra-vars @vars.yaml --extra-v
 # this is the first bootstrap of the packages for the tool itself
 # not a part of the "all" target, should be invoked manually
 presetup:
-	yum install -y epel-release ansible vim
-
-# optional step, used when the sandbox is not mounted from host system
-checkout_vnc: setup
-	scripts/checkout_vnc.sh $(sandbox_path)
+	yum install -y epel-release ansible git vim
 
 # install all the primary build deps, docker engine etc.
 setup:
-	$(ansible_playbook) provisioning/setup1.yaml
+	$(ansible_playbook) provisioning/setup_vm.yaml
 	sudo ansible-playbook -e '{"CREATE_CONTAINERS":false, "CONTAINER_VM_CONFIG": {"network": {"ntpserver":"127.0.0.1"}}, "CONTAINER_REGISTRY": "172.17.0.1:6666", "REGISTRY_PRIVATE_INSECURE": true, "CONFIGURE_VMS":true, "roles": {"localhost":[]}}' -i inventory -c local  code/contrail-ansible-deployer/playbooks/deploy.yml
-	$(ansible_playbook) provisioning/setup2.yaml
+	$(ansible_playbook) provisioning/complete_vm_config.yaml
+
+# optional step, used when the sandbox is not mounted from host system
+checkout_repos: setup
+	scripts/checkout_vnc.sh $(sandbox_path)
+	$(ansible_playbook) provisioning/checkout_repos.yaml
 
 build:
 	echo "Not implemented yet"
