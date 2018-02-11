@@ -1,4 +1,4 @@
-sandbox_path=$(HOME)/code/contrail-5.0
+sandbox_path=$(HOME)/contrail-5.0
 ansible_playbook=ansible-playbook -i inventory --extra-vars @vars.yaml --extra-vars @dev_config.yaml
 
 .PHONY: presetup checkout_vnc setup build rpm containers deploy unittest sanity all
@@ -14,9 +14,9 @@ checkout_repos:
 	scripts/checkout_vnc.sh $(sandbox_path)
 
 # install all the primary build deps, docker engine etc.
-setup:
+setup: checkout_repos
 	$(ansible_playbook) provisioning/setup_vm.yaml
-	sudo ansible-playbook -e '{"CREATE_CONTAINERS":false, "CONTAINER_VM_CONFIG": {"network": {"ntpserver":"127.0.0.1"}}, "CONTAINER_REGISTRY": "172.17.0.1:6666", "REGISTRY_PRIVATE_INSECURE": true, "CONFIGURE_VMS":true, "roles": {"localhost":[]}}' -i inventory -c local  $(HOME)/code/contrail-ansible-deployer/playbooks/deploy.yml
+	sudo ansible-playbook -e '{"CREATE_CONTAINERS":false, "CONTAINER_VM_CONFIG": {"network": {"ntpserver":"127.0.0.1"}}, "contrail_configuration": {"CONTAINER_REGISTRY": "172.17.0.1:6666"}, "REGISTRY_PRIVATE_INSECURE": true, "CONFIGURE_VMS":true, "roles": {"localhost":[]}}' -i inventory -c local  $(HOME)/code/contrail-ansible-deployer/playbooks/deploy.yml
 	$(ansible_playbook) provisioning/complete_vm_config.yaml
 
 build:

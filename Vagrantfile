@@ -13,10 +13,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       contrail_sandbox_config.vm.box = "geerlingguy/centos7"
       contrail_sandbox_config.vm.hostname = "contrail-sandbox"
       contrail_sandbox_config.vm.network "private_network", ip: "192.168.60.200"
-      contrail_sandbox_config.vm.synced_folder ".", "#{DEV_ENV_DIR}", type: "rsync",
-	      rsync__exclude: "code", owner: "#{USER}", group: "#{GROUP}"
-      contrail_sandbox_config.vm.synced_folder "./code", "#{HOME_DIR}/code", type: "rsync",
+      contrail_sandbox_config.vm.synced_folder "./code", "#{HOME_DIR}/code",
 	      owner: "#{USER}", group: "#{GROUP}"
+      contrail_sandbox_config.vm.synced_folder ".", "#{DEV_ENV_DIR}", owner: "#{USER}", group: "#{GROUP}"
       contrail_sandbox_config.ssh.forward_agent = true
       contrail_sandbox_config.ssh.insert_key = true
       contrail_sandbox_config.ssh.username = "#{USER}"
