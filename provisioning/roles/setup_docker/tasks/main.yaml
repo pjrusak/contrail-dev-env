@@ -20,3 +20,5 @@
 
 - import_tasks: registry.yaml
 
+- import_tasks: settings.yaml
+
