@@ -2,6 +2,10 @@ sandbox_path=$(HOME)/contrail-5.0
 repos_dir=$(HOME)/src/review.opencontrail.org/Juniper/
 ansible_playbook=ansible-playbook -i inventory --extra-vars @vars.yaml --extra-vars @dev_config.yaml
 
+CODE_DIR=code
+CONTAINER_DIR=container
+VNC_URL=https://github.com/Juniper/contrail-vnc
+
 .PHONY: presetup checkout_vnc setup build rpm containers deploy unittest sanity all
 
 # this is the first bootstrap of the packages for the tool itself
@@ -45,3 +49,12 @@ sanity: deploy
 
 all: containers
 
+
+checkout:
+	@cd $(CODE_DIR); \
+	 repo init -u $(VNC_URL); \
+	 repo sync; \
+	 cd -
+
+build_container: checkout
+	@docker build -t container-builder:latest .

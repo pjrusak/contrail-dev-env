@@ -1,0 +1,6 @@
+[contrail-tpc]
+name=Third parties for Contrail
+baseurl=http://10.84.5.81/pulp/repos/opencontrail-tpc/
+enabled=1
+gpgcheck=0
+
