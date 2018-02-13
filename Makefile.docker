@@ -1,0 +1,38 @@
+CODE_DIR=code
+CONTAINER_DIR=container
+VNC_URL=https://github.com/Juniper/contrail-vnc
+
+.PHONY: presetup checkout_vnc setup build rpm build_container unittest all
+
+# this is the first bootstrap of the packages for the tool itself
+# not a part of the "all" target, should be invoked manually
+presetup:
+	yum install -y epel-release ansible git vim ack yum-utils 
+	wget -O /usr/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+	@chmod 755 /usr/bin/repo
+	yum-config-manager --add-repo \
+		https://download.docker.com/linux/centos/docker-ce.repo
+	yum install -y docker-ce
+	systemctl start docker
+
+checkout_vnc:
+#	@cd $(CODE_DIR); \
+#	 repo init -u $(VNC_URL); \
+#	 repo sync; \
+#	 cd -
+	scripts/checkout_vnc.sh $(CODE_DIR)
+
+build:
+	@echo "Not implemented yet"
+
+#build_container: checkout_vnc
+build_container:
+	@docker build -t container-builder:latest .
+
+rpm:
+	@echo "Not implemented yes"
+
+unittests:
+	@echo "Not implemented yet"
+
+all: build_container

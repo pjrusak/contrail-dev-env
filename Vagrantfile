@@ -6,7 +6,10 @@ USER = "root"
 GROUP = "root"
 HOME_DIR = "/root"
 DEV_ENV_DIR = "#{HOME_DIR}/contrail-dev-env"
-REPOS_DIR = "#{HOME_DIR}/src/review.opencontrail.org/Juniper/"
+#REPOS_DIR = "#{HOME_DIR}/src/review.opencontrail.org/Juniper/"
+REPOS_DIR = "#{HOME_DIR}/code/"
+SCRIPT = "make -f $1/Makefile.docker presetup"
+#SCRIPT = "make -f $1/Makefile.ansible presetup"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
@@ -27,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
          vb.cpus = 4
       end
       contrail_sandbox_config.vm.provision "shell", name: "run presetup" do |presetup|
-        presetup.inline = "make -f $1/Makefile presetup"
+        presetup.inline = "#{SCRIPT}"
         presetup.args = "#{DEV_ENV_DIR}"
       end
    end
