@@ -11,7 +11,12 @@ VNC_URL=https://github.com/Juniper/contrail-vnc
 # this is the first bootstrap of the packages for the tool itself
 # not a part of the "all" target, should be invoked manually
 presetup:
-	yum install -y epel-release ansible git vim
+	yum install -y epel-release ansible git vim yum-utils
+	wget -O /usr/bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+	@chmod 755 /usr/bin/repo
+	yum-config-manager --add-repo \
+		https://download.docker.com/linux/centos/docker-ce.repo
+	yum install -y docker-ce
 
 # optional step, used when the sandbox is not mounted from host system
 checkout_repos:
@@ -51,10 +56,11 @@ all: containers
 
 
 checkout:
-	@cd $(CODE_DIR); \
-	 repo init -u $(VNC_URL); \
-	 repo sync; \
-	 cd -
+#	@cd $(CODE_DIR); \
+#	 repo init -u $(VNC_URL); \
+#	 repo sync; \
+#	 cd -
+	scripts/checkout_vnc.sh $(CODE_DIR)
 
 build_container: checkout
 	@docker build -t container-builder:latest .
