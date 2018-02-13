@@ -1,6 +1,8 @@
 CODE_DIR=code
 CONTAINER_DIR=container
 VNC_URL=https://github.com/Juniper/contrail-vnc
+JOBS=4
+BUILD=production
 
 .PHONY: presetup checkout_vnc setup build rpm build_container unittest all
 
@@ -29,8 +31,8 @@ build:
 build_container:
 	@docker build -t container-builder:latest .
 
-rpm:
-	@echo "Not implemented yes"
+rpm: build_container
+	docker run -it -v $(HOME)/src:src container-builder:latest scons -j$(JOBS) --opt=$(BUILD)
 
 unittests:
 	@echo "Not implemented yet"
